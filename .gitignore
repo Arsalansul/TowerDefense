@@ -1,0 +1,31 @@
+################################################################
+## MSVS
+
+**/obj/
+**/Debug/
+**/Release/
+/tmp
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Visual C++ cache files
+ipch/
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.pdb
+*.exp
+*.ilk
+*.map
