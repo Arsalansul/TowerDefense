@@ -4,7 +4,9 @@
 **/obj/
 **/Debug/
 **/Release/
-/tmp
+**/tmp
+**/Temp
+**/Librery
 
 # User-specific files
 *.suo
