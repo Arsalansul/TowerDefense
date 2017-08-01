@@ -23,24 +23,24 @@ public class GameManager : MonoBehaviour
     public List<GameObject> Enemies;
     //prefabs
     public GameObject EnemyPrefab;
-    public GameObject PathPrefab;
+    //public GameObject PathPrefab;
     public GameObject TowerPrefab;
     //list of waypoints in the current level
     public Transform[] Waypoints;
-    private GameObject PathPiecesParent;
+    //private GameObject PathPiecesParent;
     private GameObject WaypointsParent;
     //file pulled from resources
     private LevelStuffFromXML levelStuffFromXML;
     //will spawn carrots on screen
-    public CarrotSpawner CarrotSpawner;
+    //public CarrotSpawner CarrotSpawner;
 
     //helpful variables for our player
     [HideInInspector]
     public int MoneyAvailable { get; private set; }
     [HideInInspector]
-    public float MinCarrotSpawnTime;
-    [HideInInspector]
-    public float MaxCarrotSpawnTime;
+    //public float MinCarrotSpawnTime;
+    //[HideInInspector]
+    //public float MaxCarrotSpawnTime;
     public int Lives = 10;
     private int currentRoundIndex = 0;
     [HideInInspector]
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         IgnoreLayerCollisions();
 
         Enemies = new List<GameObject>();
-        PathPiecesParent = GameObject.Find("PathPieces");
+        //PathPiecesParent = GameObject.Find("PathPieces");
         WaypointsParent = GameObject.Find("Waypoints");
         levelStuffFromXML = Utilities.ReadXMLFile();
 
@@ -74,13 +74,13 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void CreateLevelFromXML()
     {
-        foreach (var position in levelStuffFromXML.Paths)
-        {
-            GameObject go = Instantiate(PathPrefab, position, 
-                Quaternion.identity) as GameObject;
-            go.GetComponent<SpriteRenderer>().sortingLayerName = "Path";
-            go.transform.parent = PathPiecesParent.transform;
-        }
+        //foreach (var position in levelStuffFromXML.Paths)
+        //{
+        //    GameObject go = Instantiate(PathPrefab, position, 
+        //        Quaternion.identity) as GameObject;
+        //    go.GetComponent<SpriteRenderer>().sortingLayerName = "Path";
+        //    go.transform.parent = PathPiecesParent.transform;
+        //}
 
         for (int i = 0; i < levelStuffFromXML.Waypoints.Count; i++)
         {
@@ -91,16 +91,14 @@ public class GameManager : MonoBehaviour
             go.name = "Waypoints" + i.ToString();
         }
 
-        GameObject tower = Instantiate(TowerPrefab, levelStuffFromXML.Tower,
-            Quaternion.identity) as GameObject;
-        tower.GetComponent<SpriteRenderer>().sortingLayerName = "Foreground";
+        GameObject tower = Instantiate(TowerPrefab, levelStuffFromXML.Tower, Quaternion.identity) as GameObject;
+        //tower.GetComponent<SpriteRenderer>().sortingLayerName = "Foreground";
 
-        Waypoints = GameObject.FindGameObjectsWithTag("Waypoint")
-            .OrderBy(x => x.name).Select(x => x.transform).ToArray();
+        Waypoints = GameObject.FindGameObjectsWithTag("Waypoint").OrderBy(x => x.name).Select(x => x.transform).ToArray();
 
         MoneyAvailable = levelStuffFromXML.InitialMoney;
-        MinCarrotSpawnTime = levelStuffFromXML.MinCarrotSpawnTime;
-        MaxCarrotSpawnTime = levelStuffFromXML.MaxCarrotSpawnTime;
+        //MinCarrotSpawnTime = levelStuffFromXML.MinCarrotSpawnTime;
+        //MaxCarrotSpawnTime = levelStuffFromXML.MaxCarrotSpawnTime;
     }
 
     /// <summary>
@@ -112,17 +110,17 @@ public class GameManager : MonoBehaviour
         int enemyLayerID = LayerMask.NameToLayer("Enemy");
         int arrowLayerID = LayerMask.NameToLayer("Arrow");
         int bunnyGeneratorLayerID = LayerMask.NameToLayer("BunnyGenerator");
-        int backgroundLayerID = LayerMask.NameToLayer("Background");
-        int pathLayerID = LayerMask.NameToLayer("Path");
-        int towerLayerID = LayerMask.NameToLayer("Tower");
-        int carrotLayerID = LayerMask.NameToLayer("Carrot");
-        Physics2D.IgnoreLayerCollision(bunnyLayerID, enemyLayerID); //Bunny and Enemy (when dragging the bunny)
-        Physics2D.IgnoreLayerCollision(arrowLayerID, bunnyGeneratorLayerID); //Arrow and BunnyGenerator
-        Physics2D.IgnoreLayerCollision(arrowLayerID, backgroundLayerID); //Arrow and Background
-        Physics2D.IgnoreLayerCollision(arrowLayerID, pathLayerID); //Arrow and Path
-        Physics2D.IgnoreLayerCollision(arrowLayerID, bunnyLayerID); //Arrow and Bunny
-        Physics2D.IgnoreLayerCollision(arrowLayerID, towerLayerID); //Arrow and Tower
-        Physics2D.IgnoreLayerCollision(arrowLayerID, carrotLayerID); //Arrow and Carrot
+        //int backgroundLayerID = LayerMask.NameToLayer("Background");
+        //int pathLayerID = LayerMask.NameToLayer("Path");
+        int towerLayerID = LayerMask.NameToLayer("Watchtower");
+        //int carrotLayerID = LayerMask.NameToLayer("Carrot");
+        Physics.IgnoreLayerCollision(bunnyLayerID, enemyLayerID); //Bunny and Enemy (when dragging the bunny)
+        //Physics.IgnoreLayerCollision(arrowLayerID, bunnyGeneratorLayerID); //Arrow and BunnyGenerator
+        //Physics3D.IgnoreLayerCollision(arrowLayerID, backgroundLayerID); //Arrow and Background
+        //Physics3D.IgnoreLayerCollision(arrowLayerID, pathLayerID); //Arrow and Path
+        Physics.IgnoreLayerCollision(arrowLayerID, bunnyLayerID); //Arrow and Bunny
+        Physics.IgnoreLayerCollision(arrowLayerID, towerLayerID); //Arrow and Tower
+        //Physics2D.IgnoreLayerCollision(arrowLayerID, carrotLayerID); //Arrow and Carrot
     }
 
 
@@ -135,7 +133,7 @@ public class GameManager : MonoBehaviour
         Round currentRound = levelStuffFromXML.Rounds[currentRoundIndex];
         for (int i = 0; i < currentRound.NoOfEnemies; i++)
         {//spawn a new enemy
-            GameObject enemy = Instantiate(EnemyPrefab, Waypoints[0].position, Quaternion.identity) as GameObject;
+            GameObject enemy = Instantiate(EnemyPrefab, Waypoints[0].position, Quaternion.identity) as GameObject;            
             Enemy enemyComponent = enemy.GetComponent<Enemy>();
             //set speed and enemyKilled handler
             enemyComponent.Speed += Mathf.Clamp(currentRoundIndex, 1f, 5f);
@@ -195,7 +193,7 @@ public class GameManager : MonoBehaviour
                 {
                     CurrentGameState = GameState.Playing;
                     StartCoroutine(NextRound());
-                    CarrotSpawner.StartCarrotSpawning();
+                    //CarrotSpawner.StartCarrotSpawning();
                 }
                 break;
             case GameState.Playing:
@@ -204,13 +202,13 @@ public class GameManager : MonoBehaviour
                     //no more rounds
                     StopCoroutine(NextRound());
                     DestroyExistingEnemiesAndCarrots();
-                    CarrotSpawner.StopCarrotSpawning();
+                    //CarrotSpawner.StopCarrotSpawning();
                     CurrentGameState = GameState.Lost;
                 }
                 else if (FinalRoundFinished && Enemies.Where(x => x != null).Count() == 0)
                 {
                     DestroyExistingEnemiesAndCarrots();
-                    CarrotSpawner.StopCarrotSpawning();
+                    //CarrotSpawner.StopCarrotSpawning();
                     CurrentGameState = GameState.Won;
                 }
                 break;
@@ -240,11 +238,11 @@ public class GameManager : MonoBehaviour
                 Destroy(item.gameObject);
         }
         //get all the carrots
-        var carrots = GameObject.FindGameObjectsWithTag("Carrot");
-        foreach (var item in carrots)
-        {
-            Destroy(item);
-        }
+        //var carrots = GameObject.FindGameObjectsWithTag("Carrot");
+        //foreach (var item in carrots)
+        //{
+        //    Destroy(item);
+        //}
     }
 
     /// <summary>

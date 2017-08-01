@@ -11,17 +11,17 @@ namespace Assets.Scripts
     /// </summary>
     public class LevelStuffFromXML
     {
-        public float MinCarrotSpawnTime;
-        public float MaxCarrotSpawnTime;
+        //public float MinCarrotSpawnTime;
+        //public float MaxCarrotSpawnTime;
         public int InitialMoney;
         public List<Round> Rounds;
-        public List<Vector2> Paths;
-        public List<Vector2> Waypoints;
-        public Vector2 Tower;
+        //public List<Vector3> Paths;
+        public List<Vector3> Waypoints;
+        public Vector3 Tower;
         public LevelStuffFromXML()
         {
-            Paths = new List<Vector2>();
-            Waypoints = new List<Vector2>();
+            //Paths = new List<Vector3>();
+            Waypoints = new List<Vector3>();
             Rounds = new List<Round>();
         }
 

@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
     public int Health;
     int nextWaypointIndex = 0;
-    public float Speed = 1f;
+    public float Speed = 2f;
     // Use this for initialization
     void Start()
     {
@@ -23,8 +23,7 @@ public class Enemy : MonoBehaviour
 
         //calculate the distance between current position
         //and the target waypoint
-        if (Vector2.Distance(transform.position,
-            GameManager.Instance.Waypoints[nextWaypointIndex].position) < 0.01f)
+        if (Vector3.Distance(transform.position, GameManager.Instance.Waypoints[nextWaypointIndex].position) < 0.01f)
         {
             //is this waypoint the last one?
             if (nextWaypointIndex == GameManager.Instance.Waypoints.Length - 1)
@@ -37,22 +36,19 @@ public class Enemy : MonoBehaviour
                 //our enemy will go to the next waypoint
                 nextWaypointIndex++;
                 //our simple AI, enemy is looking at the next waypoint
-                transform.LookAt(GameManager.Instance.Waypoints[nextWaypointIndex].position,
-                    -Vector3.forward);
+                transform.LookAt(GameManager.Instance.Waypoints[nextWaypointIndex].position, -Vector3.forward);
                 //only in the z axis
                 transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
             }
         }
         
         //enemy is moved towards the next waypoint
-        transform.position = Vector2.MoveTowards(transform.position,
-            GameManager.Instance.Waypoints[nextWaypointIndex].position,
-            Time.deltaTime * Speed);
+        transform.position = Vector3.MoveTowards(transform.position, GameManager.Instance.Waypoints[nextWaypointIndex].position, Time.deltaTime * Speed);
     }
 
 
 
-    void OnCollisionEnter2D(Collision2D col)
+    void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == "Arrow")
         {//if we're hit by an arrow
@@ -72,7 +68,7 @@ public class Enemy : MonoBehaviour
 
     void RemoveAndDestroy()
     {
-        AudioManager.Instance.PlayDeathSound();
+        //AudioManager.Instance.PlayDeathSound();
         //remove it from the enemy list
         GameManager.Instance.Enemies.Remove(this.gameObject);
         Destroy(this.gameObject);
