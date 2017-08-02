@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Assets.Scripts
 {
-    public enum BunnyState
+    public enum CannonState
     {
         Inactive,
         Searching,

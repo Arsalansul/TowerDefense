@@ -13,11 +13,11 @@ namespace Assets.Scripts
     {
         public static readonly Color RedColor = new Color(1f, 0f, 0f, 0f);
         public static readonly Color BlackColor = new Color(0f, 0f, 0f, 0f);
-        public static readonly int BunnyCost = 50;
+        public static readonly int CannonCost = 50;
         public static readonly int CarrotAward = 10;
         public static readonly int InitialEnemyHealth = 50;
         public static readonly int ArrowDamage = 20;
-        public static readonly float MinDistanceForBunnyToShoot = 3f;
+        public static readonly float MinDistanceForCannonToShoot = 3f;
         
     }
 }

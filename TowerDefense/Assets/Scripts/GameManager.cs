@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     }
 
     //sprites can be found here: 
-    //http://www.gameartguppy.com/shop/top-tower-defense-bunny-badgers-game-art-set/
+    //http://www.gameartguppy.com/shop/top-tower-defense-Cannon-badgers-game-art-set/
 
     //enemies on screen
     public List<GameObject> Enemies;
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     private int currentRoundIndex = 0;
     [HideInInspector]
     public GameState CurrentGameState;
-    public SpriteRenderer BunnyGeneratorSprite;
+    public SpriteRenderer CannonGeneratorSprite;
     [HideInInspector]
     public bool FinalRoundFinished;
     public GUIText infoText;
@@ -88,8 +88,7 @@ public class GameManager : MonoBehaviour
             go.transform.position = levelStuffFromXML.Waypoints[i];
             go.transform.parent = WaypointsParent.transform;
             go.tag = "Waypoint";
-            go.name = "Waypoints" + i.ToString();
-            Debug.Log("Waypoint" + i.ToString() + go.transform.position);
+            go.name = "Waypoints" + i.ToString();            
         }
 
         GameObject tower = Instantiate(TowerPrefab, levelStuffFromXML.Tower, Quaternion.identity) as GameObject;
@@ -107,19 +106,19 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void IgnoreLayerCollisions()
     {
-        int bunnyLayerID = LayerMask.NameToLayer("Bunny");
+        int CannonLayerID = LayerMask.NameToLayer("Cannon");
         int enemyLayerID = LayerMask.NameToLayer("Enemy");
         int arrowLayerID = LayerMask.NameToLayer("Arrow");
-        int bunnyGeneratorLayerID = LayerMask.NameToLayer("BunnyGenerator");
+        int CannonGeneratorLayerID = LayerMask.NameToLayer("CannonGenerator");
         //int backgroundLayerID = LayerMask.NameToLayer("Background");
         //int pathLayerID = LayerMask.NameToLayer("Path");
         int towerLayerID = LayerMask.NameToLayer("Watchtower");
         //int carrotLayerID = LayerMask.NameToLayer("Carrot");
-        Physics.IgnoreLayerCollision(bunnyLayerID, enemyLayerID); //Bunny and Enemy (when dragging the bunny)
-        //Physics.IgnoreLayerCollision(arrowLayerID, bunnyGeneratorLayerID); //Arrow and BunnyGenerator
+        Physics.IgnoreLayerCollision(CannonLayerID, enemyLayerID); //Cannon and Enemy (when dragging the Cannon)
+        //Physics.IgnoreLayerCollision(arrowLayerID, CannonGeneratorLayerID); //Arrow and CannonGenerator
         //Physics3D.IgnoreLayerCollision(arrowLayerID, backgroundLayerID); //Arrow and Background
         //Physics3D.IgnoreLayerCollision(arrowLayerID, pathLayerID); //Arrow and Path
-        Physics.IgnoreLayerCollision(arrowLayerID, bunnyLayerID); //Arrow and Bunny
+        Physics.IgnoreLayerCollision(arrowLayerID, CannonLayerID); //Arrow and Cannon
         Physics.IgnoreLayerCollision(arrowLayerID, towerLayerID); //Arrow and Tower
         //Physics2D.IgnoreLayerCollision(arrowLayerID, carrotLayerID); //Arrow and Carrot
     }
@@ -253,19 +252,19 @@ public class GameManager : MonoBehaviour
     public void AlterMoneyAvailable(int money)
     {
         MoneyAvailable += money;
-        //we're also modifying the BunnyGenerator alpha color
+        //we're also modifying the CannonGenerator alpha color
         //yeah, I know, I could use an event for that, next time!
-        if (MoneyAvailable < Constants.BunnyCost)
+        if (MoneyAvailable < Constants.CannonCost)
         {
-            Color temp = BunnyGeneratorSprite.color;
+            Color temp = CannonGeneratorSprite.color;
             temp.a = 0.3f;
-            BunnyGeneratorSprite.color = temp;
+            CannonGeneratorSprite.color = temp;
         }
         else
         {
-            Color temp = BunnyGeneratorSprite.color;
+            Color temp = CannonGeneratorSprite.color;
             temp.a = 1.0f;
-            BunnyGeneratorSprite.color = temp;
+            CannonGeneratorSprite.color = temp;
         }
     }
 

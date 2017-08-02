@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using Assets.Scripts;
 
-public class Bunny : MonoBehaviour
+public class Cannon : MonoBehaviour
 {
 
     //arrow sound found here
@@ -19,7 +19,7 @@ public class Bunny : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        State = BunnyState.Inactive;
+        State = CannonState.Inactive;
         //find where we're shooting from
         ArrowSpawnPosition = transform.Find("ArrowSpawnPosition");
     }
@@ -30,10 +30,10 @@ public class Bunny : MonoBehaviour
         //if we're in the last round and we've killed all enemies, do nothing
         if (GameManager.Instance.FinalRoundFinished &&
             GameManager.Instance.Enemies.Where(x => x != null).Count() == 0)
-            State = BunnyState.Inactive;
+            State = CannonState.Inactive;
 
         //searching for an enemy
-        if (State == BunnyState.Searching)
+        if (State == CannonState.Searching)
         {
             if (GameManager.Instance.Enemies.Where(x => x != null).Count() == 0) return;
 
@@ -48,24 +48,24 @@ public class Bunny : MonoBehaviour
             //if there is an enemy and is close to us, target it
             if (targetedEnemy != null && targetedEnemy.activeSelf
                 && Vector3.Distance(transform.position, targetedEnemy.transform.position)
-                < Constants.MinDistanceForBunnyToShoot)
+                < Constants.MinDistanceForCannonToShoot)
             {
-                State = BunnyState.Targeting;
+                State = CannonState.Targeting;
             }
 
         }
-        else if (State == BunnyState.Targeting)
+        else if (State == CannonState.Targeting)
         {
             //if the targeted enemy is still close to us, look at it and shoot!
             if (targetedEnemy != null 
                 && Vector3.Distance(transform.position, targetedEnemy.transform.position)
-                    < Constants.MinDistanceForBunnyToShoot)
+                    < Constants.MinDistanceForCannonToShoot)
             {
                 LookAndShoot();
             }
             else //enemy has left our shooting range, so look for another one
             {
-                State = BunnyState.Searching;
+                State = CannonState.Searching;
             }
         }
     }
@@ -100,7 +100,7 @@ public class Bunny : MonoBehaviour
         //if the enemy is still close to us
         if (targetedEnemy != null && targetedEnemy.activeSelf
             && Vector3.Distance(transform.position, targetedEnemy.transform.position)
-                    < Constants.MinDistanceForBunnyToShoot)
+                    < Constants.MinDistanceForCannonToShoot)
         {
             //create a new arrow
             GameObject go = ObjectPoolerManager.Instance.ArrowPooler.GetPooledObject();
@@ -113,16 +113,16 @@ public class Bunny : MonoBehaviour
         }
         else//find another enemy
         {
-            State = BunnyState.Searching;
+            State = CannonState.Searching;
         }
 
 
     }
-    private BunnyState State;
+    private CannonState State;
 
 
     public void Activate()
     {
-        State = BunnyState.Searching;
+        State = CannonState.Searching;
     }
 }
