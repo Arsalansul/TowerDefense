@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
             go.transform.parent = WaypointsParent.transform;
             go.tag = "Waypoint";
             go.name = "Waypoints" + i.ToString();
+            Debug.Log("Waypoint" + i.ToString() + go.transform.position);
         }
 
         GameObject tower = Instantiate(TowerPrefab, levelStuffFromXML.Tower, Quaternion.identity) as GameObject;

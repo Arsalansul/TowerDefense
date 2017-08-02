@@ -36,9 +36,9 @@ public class Enemy : MonoBehaviour
                 //our enemy will go to the next waypoint
                 nextWaypointIndex++;
                 //our simple AI, enemy is looking at the next waypoint
-                transform.LookAt(GameManager.Instance.Waypoints[nextWaypointIndex].position, -Vector3.forward);
+                transform.LookAt(GameManager.Instance.Waypoints[nextWaypointIndex].position);
                 //only in the z axis
-                transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
+                //transform.eulerAngles = new Vector3(0, 0, 0);
             }
         }
         

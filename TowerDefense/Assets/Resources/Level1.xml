@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Elements>  
   <Waypoints>
-    <Waypoint X="-13" Y="0.5" Z="0" />
-    <Waypoint X="-10" Y="0.5" Z="0" />
-    <Waypoint X="-10" Y="0.5" Z="2" />
-    <Waypoint X="0" Y="0.5" Z="2" />
-    <Waypoint X="11" Y="0.5" Z="0" />    
+    <Waypoint X="-13" Y="0" Z="0" />
+    <Waypoint X="-10" Y="0" Z="0" />
+    <Waypoint X="-10" Y="0" Z="5" />
+    <Waypoint X="0" Y="0" Z="2" />
+    <Waypoint X="11" Y="0" Z="0" />    
   </Waypoints>
   <Tower X="13.02" Y="0" Z="0" />
   <Rounds>

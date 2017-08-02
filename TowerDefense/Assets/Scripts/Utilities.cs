@@ -44,7 +44,7 @@ namespace Assets.Scripts
             var waypoints = el.Element("Waypoints").Elements("Waypoint");
             foreach (var item in waypoints)
             {
-                ls.Waypoints.Add(new Vector2(float.Parse(item.Attribute("X").Value), float.Parse(item.Attribute("Y").Value)));
+                ls.Waypoints.Add(new Vector3(float.Parse(item.Attribute("X").Value), float.Parse(item.Attribute("Y").Value),  float.Parse(item.Attribute("Z").Value)));
             }
 
             var rounds = el.Element("Rounds").Elements("Round");
@@ -57,7 +57,7 @@ namespace Assets.Scripts
             }
 
             XElement tower = el.Element("Tower");
-            ls.Tower = new Vector2(float.Parse(tower.Attribute("X").Value), float.Parse(tower.Attribute("Y").Value));
+            ls.Tower = new Vector3(float.Parse(tower.Attribute("X").Value), float.Parse(tower.Attribute("Y").Value), float.Parse(tower.Attribute("Z").Value));
 
             XElement otherStuff = el.Element("OtherStuff");
             ls.InitialMoney = int.Parse(otherStuff.Attribute("InitialMoney").Value);
