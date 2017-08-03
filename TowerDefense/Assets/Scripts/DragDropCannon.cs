@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
 using Assets.Scripts;
@@ -37,19 +38,18 @@ public class DragDropCannon : MonoBehaviour
             Vector3 location = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             Vector2 touchPos = new Vector2(location.x, location.y);
             //if user has tapped onto the Cannon generator
-            if (CannonGenerator.GetComponent<SphereCollider>() ==Physics2D.OverlapPoint(touchPos, 1 << LayerMask.NameToLayer("CannonGenerator")))
+            if (CannonGenerator.GetComponent<CircleCollider2D>() ==Physics2D.OverlapPoint(touchPos, 1 << LayerMask.NameToLayer("CannonGenerator")))
             {
                 //initiate dragging operation and create a new Cannon for us to drag
                 isDragging = true;
                 //create a temp Cannon to drag around
-                newCannon = Instantiate(CannonPrefab, CannonGenerator.transform.position, Quaternion.identity)
-                    as GameObject;
+                newCannon = Instantiate(CannonPrefab, CannonGenerator.transform.position, Quaternion.identity) as GameObject;
             }
         }
         else if (Input.GetMouseButton(0) && isDragging)
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction);
+            RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction);
             if (hits.Length > 0 && hits[0].collider != null)
             {
                 newCannon.transform.position = hits[0].collider.gameObject.transform.position;
@@ -58,8 +58,7 @@ public class DragDropCannon : MonoBehaviour
                 //or there is an existing Cannon there
                 //we use > 1 since we're hovering over the newCannon gameobject 
                 //(i.e. there is already a Cannon there)
-                if (hits.Where(x => x.collider.gameObject.tag == "Path"
-                    || x.collider.gameObject.tag == "Tower").Count() > 0
+                if (hits.Where(x=>x.collider.gameObject.tag == "Tower").Count() > 0
                     || hits.Where(x=>x.collider.gameObject.tag == "Cannon").Count() > 1)
                 {
                     //we cannot place a Cannon there
@@ -88,8 +87,7 @@ public class DragDropCannon : MonoBehaviour
             //check if we can leave the Cannon here
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
-            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction,
-                Mathf.Infinity, ~(1 << LayerMask.NameToLayer("CannonGenerator")));
+            RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction, Mathf.Infinity, ~(1 << LayerMask.NameToLayer("CannonGenerator")));
             //in order to place it, we must have a background and no other bunnies
             if (hits.Where(x=>x.collider.gameObject.tag == "Background").Count() > 0
                 && hits.Where(x => x.collider.gameObject.tag == "Path").Count() == 0
