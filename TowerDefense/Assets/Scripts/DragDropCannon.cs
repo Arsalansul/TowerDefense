@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
 using Assets.Scripts;
+using GameClient.UI;
 
 /// <summary>
 /// Drag and drop mechanism
@@ -32,13 +32,13 @@ public class DragDropCannon : MonoBehaviour
     void Update()
     {
         //if we have money and we can drag a new Cannon
+        
         if (Input.GetMouseButtonDown(0) && !isDragging && GameManager.Instance.MoneyAvailable >= Constants.CannonCost)
         {
             ResetTempBackgroundColor();
-            Vector3 location = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 touchPos = new Vector2(location.x, location.y);
+            Vector2 location = mainCamera.ScreenToWorldPoint(Input.mousePosition);            
             //if user has tapped onto the Cannon generator
-            if (CannonGenerator.GetComponent<CircleCollider2D>() ==Physics2D.OverlapPoint(touchPos, 1 << LayerMask.NameToLayer("CannonGenerator")))
+            if (CannonGenerator.GetComponent<CircleCollider2D>() ==Physics2D.OverlapPoint(location, 1 << LayerMask.NameToLayer("CannonGenerator")))
             {
                 //initiate dragging operation and create a new Cannon for us to drag
                 isDragging = true;

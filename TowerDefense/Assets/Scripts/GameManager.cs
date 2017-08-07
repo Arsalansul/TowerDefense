@@ -254,18 +254,18 @@ public class GameManager : MonoBehaviour
         MoneyAvailable += money;
         //we're also modifying the CannonGenerator alpha color
         //yeah, I know, I could use an event for that, next time!
-        if (MoneyAvailable < Constants.CannonCost)
-        {
-            Color temp = CannonGeneratorSprite.color;
-            temp.a = 0.3f;
-            CannonGeneratorSprite.color = temp;
-        }
-        else
-        {
-            Color temp = CannonGeneratorSprite.color;
-            temp.a = 1.0f;
-            CannonGeneratorSprite.color = temp;
-        }
+        //if (MoneyAvailable < Constants.CannonCost)
+        //{
+        //    Color temp = CannonGeneratorSprite.color;
+        //    temp.a = 0.3f;
+        //    CannonGeneratorSprite.color = temp;
+        //}
+        //else
+        //{
+        //    Color temp = CannonGeneratorSprite.color;
+        //    temp.a = 1.0f;
+        //    CannonGeneratorSprite.color = temp;
+        //}
     }
 
     /// <summary>
