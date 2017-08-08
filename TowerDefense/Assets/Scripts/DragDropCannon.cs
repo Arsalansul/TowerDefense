@@ -43,24 +43,24 @@ public class DragDropCannon : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
                 newCannon.transform.position = hits[0].transform.position;
                 newCannon.SetActive(true);
                 
-                if (hits.Where(x => x.collider.gameObject.tag == "Tower").Count() > 0
-                    || hits.Where(x => x.collider.gameObject.tag == "Cannon").Count() > 1)
-                {
-                    //we cannot place a Cannon there
-                    GameObject backgroundBehindPath = hits.Where(x => x.collider.gameObject.tag == "Background").First().collider.gameObject;
-                    //make the sprite material "more red"
-                    //to let the user know that we can't place a Cannon here
-                    backgroundBehindPath.GetComponent<MeshRenderer>().material.color = Constants.RedColor;
-
-                    if (tempBackgroundBehindPath != backgroundBehindPath)
-                        ResetTempBackgroundColor();
-                    //cache it to revert later
-                    tempBackgroundBehindPath = backgroundBehindPath;
-                }
-                else //just reset the color on previously set paths
-                {
-                    ResetTempBackgroundColor();
-                }
+                //if (hits.Where(x => x.collider.gameObject.tag == "Tower").Count() > 0
+                //    || hits.Where(x => x.collider.gameObject.tag == "Cannon").Count() > 1)
+                //{
+                //    //we cannot place a Cannon there
+                //    GameObject backgroundBehindPath = hits.Where(x => x.collider.gameObject.tag == "Background").First().collider.gameObject;
+                //    //make the sprite material "more red"
+                //    //to let the user know that we can't place a Cannon here
+                //    backgroundBehindPath.GetComponent<MeshRenderer>().material.color = Constants.RedColor;
+                //
+                //    if (tempBackgroundBehindPath != backgroundBehindPath)
+                //        ResetTempBackgroundColor();
+                //    //cache it to revert later
+                //    tempBackgroundBehindPath = backgroundBehindPath;
+                //}
+                //else //just reset the color on previously set paths
+                //{
+                //    ResetTempBackgroundColor();
+                //}
 
             }
             else
