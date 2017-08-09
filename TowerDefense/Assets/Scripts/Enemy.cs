@@ -50,18 +50,18 @@ public class Enemy : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Arrow")
-        {//if we're hit by an arrow
+        if (col.gameObject.tag == "Ball")
+        {//if we're hit by an Ball
             if (Health > 0)
             {
                 //decrease enemy health
-                Health -= Constants.ArrowDamage;
+                Health -= Constants.Ball;
                 if (Health <= 0)
                 {
                     RemoveAndDestroy();
                 }
             }
-            col.gameObject.GetComponent<Arrow>().Disable(); //disable the arrow
+            col.gameObject.GetComponent<Ball>().Disable(); //disable the Ball
         }
     }
     public event EventHandler EnemyKilled;

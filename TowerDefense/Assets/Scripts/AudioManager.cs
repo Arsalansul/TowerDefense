@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AudioManager : MonoBehaviour {
 
-    public AudioClip ArrowAudioClip, DeathSoundAudioClip;
+    public AudioClip BallAudioClip, DeathSoundAudioClip;
 
     /// <summary>
     /// Basic singleton implementation
@@ -15,9 +15,9 @@ public class AudioManager : MonoBehaviour {
         Instance = this;
     }
 
-    public void PlayArrowSound()
+    public void PlayBallSound()
     {
-        StartCoroutine(PlaySound(ArrowAudioClip));
+        StartCoroutine(PlaySound(BallAudioClip));
     }
 
     public void PlayDeathSound()

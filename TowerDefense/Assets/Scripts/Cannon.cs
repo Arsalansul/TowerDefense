@@ -6,15 +6,15 @@ using Assets.Scripts;
 public class Cannon : MonoBehaviour
 {
 
-    //arrow sound found here
+    //Ball sound found here
     //https://www.freesound.org/people/Erdie/sounds/65734/
 
-    public Transform ArrowSpawnPosition;
-    public GameObject ArrowPrefab;
+    public Transform BallSpawnPosition;
+    public GameObject BallPrefab;
     public float ShootWaitTime = 2f;
     private float LastShootTime = 0f;
     GameObject targetedEnemy;
-    private float InitialArrowForce = 500f;
+    private float InitialBallForce = 500f;
     private CannonState State;
 
     // Use this for initialization
@@ -22,7 +22,7 @@ public class Cannon : MonoBehaviour
     {
         State = CannonState.Searching;  ///TODO вернуть inactive
         //find where we're shooting from
-        ArrowSpawnPosition = transform.Find("ArrowSpawnPosition");
+        BallSpawnPosition = transform.Find("BallSpawnPosition");
     }
 
     // Update is called once per frame
@@ -99,14 +99,14 @@ public class Cannon : MonoBehaviour
             && Vector3.Distance(transform.position, targetedEnemy.transform.position)
                     < Constants.MinDistanceForCannonToShoot)
         {
-            //create a new arrow
-            GameObject go = ObjectPoolerManager.Instance.ArrowPooler.GetPooledObject();
-            go.transform.position = ArrowSpawnPosition.position;
+            //create a new Ball
+            GameObject go = ObjectPoolerManager.Instance.BallPooler.GetPooledObject();
+            go.transform.position = BallSpawnPosition.position;
             //go.transform.rotation = transform.rotation;
             go.SetActive(true);
             //SHOOT IT!
-            go.GetComponent<Rigidbody>().AddForce(dir * InitialArrowForce);
-            //AudioManager.Instance.PlayArrowSound();
+            go.GetComponent<Rigidbody>().AddForce(dir * InitialBallForce);
+            //AudioManager.Instance.PlayBallSound();
         }
         else//find another enemy
         {

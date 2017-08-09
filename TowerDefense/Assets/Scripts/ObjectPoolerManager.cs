@@ -4,11 +4,11 @@ using System;
 
 public class ObjectPoolerManager : MonoBehaviour {
 
-    //we'll need pools for arrows and audio objects
-    public ObjectPooler ArrowPooler;
+    //we'll need pools for Balls and audio objects
+    public ObjectPooler BallPooler;
     public ObjectPooler AudioPooler;
 
-    public GameObject ArrowPrefab;
+    public GameObject BallPrefab;
 
 
     //basic singleton implementation
@@ -21,13 +21,13 @@ public class ObjectPoolerManager : MonoBehaviour {
     void Start()
     {
         //just instantiate the pools
-        if (ArrowPooler == null)
+        if (BallPooler == null)
         {
-            GameObject go = new GameObject("ArrowPooler");
-            ArrowPooler = go.AddComponent<ObjectPooler>();
-            ArrowPooler.PooledObject = ArrowPrefab;
+            GameObject go = new GameObject("BallPooler");
+            BallPooler = go.AddComponent<ObjectPooler>();
+            BallPooler.PooledObject = BallPrefab;
             go.transform.parent = this.gameObject.transform;
-            ArrowPooler.Initialize();
+            BallPooler.Initialize();
         }
 
         if (AudioPooler == null)

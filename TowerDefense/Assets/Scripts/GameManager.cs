@@ -102,25 +102,25 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Will make the arrow collide only with enemies!
+    /// Will make the Ball collide only with enemies!
     /// </summary>
     private void IgnoreLayerCollisions()
     {
         int CannonLayerID = LayerMask.NameToLayer("Cannon");
         int enemyLayerID = LayerMask.NameToLayer("Enemy");
-        int arrowLayerID = LayerMask.NameToLayer("Arrow");
+        int BallLayerID = LayerMask.NameToLayer("Ball");
         int CannonGeneratorLayerID = LayerMask.NameToLayer("CannonGenerator");
         //int backgroundLayerID = LayerMask.NameToLayer("Background");
         //int pathLayerID = LayerMask.NameToLayer("Path");
         int towerLayerID = LayerMask.NameToLayer("Watchtower");
         //int carrotLayerID = LayerMask.NameToLayer("Carrot");
         Physics.IgnoreLayerCollision(CannonLayerID, enemyLayerID); //Cannon and Enemy (when dragging the Cannon)
-        //Physics.IgnoreLayerCollision(arrowLayerID, CannonGeneratorLayerID); //Arrow and CannonGenerator
-        //Physics3D.IgnoreLayerCollision(arrowLayerID, backgroundLayerID); //Arrow and Background
-        //Physics3D.IgnoreLayerCollision(arrowLayerID, pathLayerID); //Arrow and Path
-        Physics.IgnoreLayerCollision(arrowLayerID, CannonLayerID); //Arrow and Cannon
-        Physics.IgnoreLayerCollision(arrowLayerID, towerLayerID); //Arrow and Tower
-        //Physics2D.IgnoreLayerCollision(arrowLayerID, carrotLayerID); //Arrow and Carrot
+        //Physics.IgnoreLayerCollision(BallLayerID, CannonGeneratorLayerID); //Ball and CannonGenerator
+        //Physics3D.IgnoreLayerCollision(BallLayerID, backgroundLayerID); //Ball and Background
+        //Physics3D.IgnoreLayerCollision(BallLayerID, pathLayerID); //Ball and Path
+        Physics.IgnoreLayerCollision(BallLayerID, CannonLayerID); //Ball and Cannon
+        Physics.IgnoreLayerCollision(BallLayerID, towerLayerID); //Ball and Tower
+        //Physics2D.IgnoreLayerCollision(BallLayerID, carrotLayerID); //Ball and Carrot
     }
 
 
