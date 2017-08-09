@@ -15,11 +15,12 @@ public class Cannon : MonoBehaviour
     private float LastShootTime = 0f;
     GameObject targetedEnemy;
     private float InitialArrowForce = 500f;
+    private CannonState State;
 
     // Use this for initialization
     void Start()
     {
-        State = CannonState.Inactive;
+        State = CannonState.Searching;
         //find where we're shooting from
         ArrowSpawnPosition = transform.Find("ArrowSpawnPosition");
     }
@@ -28,21 +29,17 @@ public class Cannon : MonoBehaviour
     void Update()
     {
         //if we're in the last round and we've killed all enemies, do nothing
-        if (GameManager.Instance.FinalRoundFinished &&
-            GameManager.Instance.Enemies.Where(x => x != null).Count() == 0)
+        if (GameManager.Instance.FinalRoundFinished && GameManager.Instance.Enemies.Where(x => x != null).Count() == 0)
             State = CannonState.Inactive;
 
         //searching for an enemy
         if (State == CannonState.Searching)
         {
             if (GameManager.Instance.Enemies.Where(x => x != null).Count() == 0) return;
-
-            //find the closest enemy
-            //aggregate method proposed here
-            //http://unitygems.com/linq-1-time-linq/
+            
             targetedEnemy = GameManager.Instance.Enemies.Where(x => x != null)
-           .Aggregate((current, next) => Vector2.Distance(current.transform.position, transform.position)
-               < Vector2.Distance(next.transform.position, transform.position)
+                .Aggregate((current, next) => Vector3.Distance(current.transform.position, transform.position)
+               < Vector3.Distance(next.transform.position, transform.position)
               ? current : next);
 
             //if there is an enemy and is close to us, target it
@@ -74,14 +71,14 @@ public class Cannon : MonoBehaviour
     {
         //look at the enemy
         Quaternion diffRotation = Quaternion.LookRotation
-            (transform.position - targetedEnemy.transform.position, Vector3.forward);
+            (-transform.position + targetedEnemy.transform.position, Vector3.forward);
         transform.rotation = Quaternion.RotateTowards
             (transform.rotation, diffRotation, Time.deltaTime * 2000);
-        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
+        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 
         //make sure we're almost looking at the enemy before start shooting
-        Vector2 direction = targetedEnemy.transform.position - transform.position;
-        float axisDif = Vector2.Angle(transform.up, direction);
+        Vector3 direction = targetedEnemy.transform.position - transform.position;
+        float axisDif = Vector3.Angle(transform.up, direction);
         //shoot only if we have 20 degrees rotation difference to the enemy
         if (axisDif <= 20f)
         {
@@ -90,12 +87,12 @@ public class Cannon : MonoBehaviour
                 Shoot(direction);
                 LastShootTime = Time.time;
             }
-
+        
         }
     }
 
 
-    private void Shoot(Vector2 dir)
+    private void Shoot(Vector3 dir)
     {
         //if the enemy is still close to us
         if (targetedEnemy != null && targetedEnemy.activeSelf
@@ -105,11 +102,11 @@ public class Cannon : MonoBehaviour
             //create a new arrow
             GameObject go = ObjectPoolerManager.Instance.ArrowPooler.GetPooledObject();
             go.transform.position = ArrowSpawnPosition.position;
-            go.transform.rotation = transform.rotation;
+            //go.transform.rotation = transform.rotation;
             go.SetActive(true);
             //SHOOT IT!
-            go.GetComponent<Rigidbody2D>().AddForce(dir * InitialArrowForce);
-            AudioManager.Instance.PlayArrowSound();
+            go.GetComponent<Rigidbody>().AddForce(dir * InitialArrowForce);
+            //AudioManager.Instance.PlayArrowSound();
         }
         else//find another enemy
         {
@@ -118,8 +115,6 @@ public class Cannon : MonoBehaviour
 
 
     }
-    private CannonState State;
-
 
     public void Activate()
     {
