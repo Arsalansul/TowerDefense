@@ -20,7 +20,7 @@ public class Cannon : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        State = CannonState.Searching;
+        State = CannonState.Searching;  ///TODO вернуть inactive
         //find where we're shooting from
         ArrowSpawnPosition = transform.Find("ArrowSpawnPosition");
     }
