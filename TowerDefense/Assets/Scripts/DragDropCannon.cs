@@ -14,11 +14,13 @@ public class DragDropCannon : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         mainCamera = Camera.main;
         newCannon = Instantiate(CannonPrefab);
         newCannon.SetActive(false);
+        r = newCannon.GetComponent<Rigidbody>();
     }
    
     private Camera mainCamera;
     public GameObject CannonPrefab;
-    private GameObject newCannon;   
+    private GameObject newCannon;
+    Rigidbody r;
 
     //will be colored red if we cannot place a Cannon there
     private GameObject tempBackgroundBehindPath;
@@ -43,8 +45,10 @@ public class DragDropCannon : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
                 int terrainCollderQuadIndex = GetTerrainColliderQuadIndex(hits);
                 if (terrainCollderQuadIndex != -1)
                 {
-                    newCannon.transform.position = hits[terrainCollderQuadIndex].point;
+                    //newCannon.transform.position = hits[terrainCollderQuadIndex].point;
                     newCannon.SetActive(true);
+
+                    r.velocity = (hits[terrainCollderQuadIndex].point - newCannon.transform.position);
                     if (hits.Where(x => x.collider.gameObject.tag == "Tower").Count() > 0 || hits.Where(x => x.collider.gameObject.tag == "Cannon").Count() > 1)
                     {
                         //we cannot place a Cannon there
@@ -77,7 +81,7 @@ public class DragDropCannon : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         selected = null;
         
         ResetTempBackgroundColor();
-
+        r.velocity = Vector3.zero;
         // If the prefab instance is active after dragging stopped, it means
         // it's in the arena so (for now), just drop it in.
         if (newCannon.activeSelf)
@@ -87,7 +91,7 @@ public class DragDropCannon : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         }       
 
         // Then set it to inactive ready for the next drag!
-        newCannon.SetActive(false);       
+        newCannon.SetActive(false);
     }
     //popov end
     int GetTerrainColliderQuadIndex(RaycastHit[] hits)
