@@ -19,6 +19,11 @@ public class DragDropCannon : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     private Camera mainCamera;
     public GameObject CannonPrefab;
     private GameObject newCannon;
+    void Update()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(ray.origin, ray.direction * 50, Color.yellow);
+    }
 
     //will be colored red if we cannot place a Cannon there
     private GameObject tempBackgroundBehindPath;
@@ -35,13 +40,17 @@ public class DragDropCannon : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         if (selected.gameObject.tag == "CannonGenerator" && GameManager.Instance.MoneyAvailable >= Constants.CannonCost)
         {                  
             RaycastHit[] hits;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            hits = Physics.RaycastAll(ray, 50f);
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            hits = Physics.RaycastAll(ray, 500f);
 
             if (hits.Length > 0 && hits != null)
             {
-                newCannon.transform.position = hits[0].transform.position;
-                newCannon.SetActive(true);
+                int terrainCollderQuadIndex = GetTerrainColliderQuadIndex(hits);
+                if (terrainCollderQuadIndex != -1)
+                {
+                    newCannon.transform.position = hits[terrainCollderQuadIndex].point;
+                    newCannon.SetActive(true);
+                }
                 
                 //if (hits.Where(x => x.collider.gameObject.tag == "Tower").Count() > 0
                 //    || hits.Where(x => x.collider.gameObject.tag == "Cannon").Count() > 1)
@@ -61,10 +70,10 @@ public class DragDropCannon : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
                 //{
                 //    ResetTempBackgroundColor();
                 //}
-
+                else
+                    newCannon.SetActive(false);
             }
-            else
-                newCannon.SetActive(false);
+           
 
         }
 
@@ -73,7 +82,7 @@ public class DragDropCannon : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     public void OnEndDrag(PointerEventData data)
     {
         selected = null;
-        ResetTempBackgroundColor();
+        //ResetTempBackgroundColor();
 
         // If the prefab instance is active after dragging stopped, it means
         // it's in the arena so (for now), just drop it in.
@@ -107,7 +116,7 @@ public class DragDropCannon : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     {
         for (int i = 0; i < hits.Length; i++)
         {
-            if (hits[i].collider.gameObject.name.Equals("TerrainColliderQuad"))
+            if (hits[i].collider.gameObject.tag==("Background"))
             {
                 return i;
             }
