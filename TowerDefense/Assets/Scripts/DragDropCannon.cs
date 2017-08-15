@@ -43,7 +43,7 @@ public class DragDropCannon : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
                 int terrainCollderQuadIndex = GetTerrainColliderQuadIndex(hits);
                 if (terrainCollderQuadIndex != -1)
                 {
-                    newCannon.transform.position = hits[terrainCollderQuadIndex].point;
+                    newCannon.transform.position = new Vector3(Mathf.Round(hits[terrainCollderQuadIndex].point.x),0, Mathf.Round(hits[terrainCollderQuadIndex].point.z));
                     newCannon.SetActive(true);
                     if (hits.Where(x => x.collider.gameObject.tag == "Tower").Count() > 0 || hits.Where(x => x.collider.gameObject.tag == "Cannon").Count() > 1)
                     {
