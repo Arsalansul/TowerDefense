@@ -14,7 +14,7 @@ public class Cannon : MonoBehaviour
     public float ShootWaitTime = 2f;
     private float LastShootTime = 0f;
     GameObject targetedEnemy;
-    private float InitialBallForce = 500f;
+    private float InitialBallForce = 100f;
     private CannonState State;
 
     // Use this for initialization
@@ -78,9 +78,9 @@ public class Cannon : MonoBehaviour
 
         //make sure we're almost looking at the enemy before start shooting
         Vector3 direction = targetedEnemy.transform.position - transform.position;
-        float axisDif = Vector3.Angle(transform.up, direction);
-        //shoot only if we have 20 degrees rotation difference to the enemy
-        if (axisDif <= 20f)
+        float axisDif = Vector3.Angle(transform.forward, direction);
+        //shoot only if we have 20 degrees rotation difference to the enemy   
+        if (axisDif <= 30f)
         {
             if (Time.time - LastShootTime > ShootWaitTime)
             {
@@ -102,7 +102,7 @@ public class Cannon : MonoBehaviour
             //create a new Ball
             GameObject go = ObjectPoolerManager.Instance.BallPooler.GetPooledObject();
             go.transform.position = BallSpawnPosition.position;
-            //go.transform.rotation = transform.rotation;
+            go.transform.rotation = transform.rotation;
             go.SetActive(true);
             //SHOOT IT!
             go.GetComponent<Rigidbody>().AddForce(dir * InitialBallForce);
@@ -110,10 +110,9 @@ public class Cannon : MonoBehaviour
         }
         else//find another enemy
         {
+            Debug.Log("shoot in ELSE");
             State = CannonState.Searching;
         }
-
-
     }
 
     public void Activate()
