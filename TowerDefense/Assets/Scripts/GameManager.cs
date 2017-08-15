@@ -73,15 +73,7 @@ public class GameManager : MonoBehaviour
     /// Will create necessary stuff from the object that has the XML stuff
     /// </summary>
     private void CreateLevelFromXML()
-    {
-        //foreach (var position in levelStuffFromXML.Paths)
-        //{
-        //    GameObject go = Instantiate(PathPrefab, position, 
-        //        Quaternion.identity) as GameObject;
-        //    go.GetComponent<SpriteRenderer>().sortingLayerName = "Path";
-        //    go.transform.parent = PathPiecesParent.transform;
-        //}
-
+    {        
         for (int i = 0; i < levelStuffFromXML.Waypoints.Count; i++)
         {
             GameObject go = new GameObject();
@@ -97,8 +89,6 @@ public class GameManager : MonoBehaviour
         Waypoints = GameObject.FindGameObjectsWithTag("Waypoint").OrderBy(x => x.name).Select(x => x.transform).ToArray();
 
         MoneyAvailable = levelStuffFromXML.InitialMoney;
-        //MinCarrotSpawnTime = levelStuffFromXML.MinCarrotSpawnTime;
-        //MaxCarrotSpawnTime = levelStuffFromXML.MaxCarrotSpawnTime;
     }
 
     /// <summary>
@@ -109,18 +99,12 @@ public class GameManager : MonoBehaviour
         int CannonLayerID = LayerMask.NameToLayer("Cannon");
         int enemyLayerID = LayerMask.NameToLayer("Enemy");
         int BallLayerID = LayerMask.NameToLayer("Ball");
-        int CannonGeneratorLayerID = LayerMask.NameToLayer("CannonGenerator");
-        //int backgroundLayerID = LayerMask.NameToLayer("Background");
-        //int pathLayerID = LayerMask.NameToLayer("Path");
+        int backgroundLayerID = LayerMask.NameToLayer("Background");
         int towerLayerID = LayerMask.NameToLayer("Watchtower");
-        //int carrotLayerID = LayerMask.NameToLayer("Carrot");
         Physics.IgnoreLayerCollision(CannonLayerID, enemyLayerID); //Cannon and Enemy (when dragging the Cannon)
-        //Physics.IgnoreLayerCollision(BallLayerID, CannonGeneratorLayerID); //Ball and CannonGenerator
         //Physics3D.IgnoreLayerCollision(BallLayerID, backgroundLayerID); //Ball and Background
-        //Physics3D.IgnoreLayerCollision(BallLayerID, pathLayerID); //Ball and Path
         Physics.IgnoreLayerCollision(BallLayerID, CannonLayerID); //Ball and Cannon
         Physics.IgnoreLayerCollision(BallLayerID, towerLayerID); //Ball and Tower
-        //Physics2D.IgnoreLayerCollision(BallLayerID, carrotLayerID); //Ball and Carrot
     }
 
 
@@ -208,7 +192,6 @@ public class GameManager : MonoBehaviour
                 else if (FinalRoundFinished && Enemies.Where(x => x != null).Count() == 0)
                 {
                     DestroyExistingEnemiesAndCarrots();
-                    //CarrotSpawner.StopCarrotSpawning();
                     CurrentGameState = GameState.Won;
                 }
                 break;
@@ -237,12 +220,6 @@ public class GameManager : MonoBehaviour
             if (item != null)
                 Destroy(item.gameObject);
         }
-        //get all the carrots
-        //var carrots = GameObject.FindGameObjectsWithTag("Carrot");
-        //foreach (var item in carrots)
-        //{
-        //    Destroy(item);
-        //}
     }
 
     /// <summary>

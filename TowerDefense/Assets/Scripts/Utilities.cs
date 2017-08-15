@@ -34,12 +34,6 @@ namespace Assets.Scripts
             //LINQ to XML rulez!
             XDocument xdoc = XDocument.Parse(ta.text);
             XElement el = xdoc.Element("Elements");
-            //var paths = el.Element("PathPieces").Elements("Path");
-
-            //foreach (var item in paths)
-            //{
-            //    ls.Paths.Add(new Vector2(float.Parse(item.Attribute("X").Value), float.Parse(item.Attribute("Y").Value)));
-            //}
 
             var waypoints = el.Element("Waypoints").Elements("Waypoint");
             foreach (var item in waypoints)
@@ -61,8 +55,6 @@ namespace Assets.Scripts
 
             XElement otherStuff = el.Element("OtherStuff");
             ls.InitialMoney = int.Parse(otherStuff.Attribute("InitialMoney").Value);
-            //ls.MinCarrotSpawnTime = float.Parse(otherStuff.Attribute("MinCarrotSpawnTime").Value);
-            //ls.MaxCarrotSpawnTime = float.Parse(otherStuff.Attribute("MaxCarrotSpawnTime").Value);
 
             return ls;
         }
