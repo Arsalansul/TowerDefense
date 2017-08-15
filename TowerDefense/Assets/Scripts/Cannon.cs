@@ -110,7 +110,6 @@ public class Cannon : MonoBehaviour
         }
         else//find another enemy
         {
-            Debug.Log("shoot in ELSE");
             State = CannonState.Searching;
         }
     }

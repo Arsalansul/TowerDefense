@@ -72,6 +72,7 @@ public class Enemy : MonoBehaviour
         //remove it from the enemy list
         GameManager.Instance.Enemies.Remove(this.gameObject);
         Destroy(this.gameObject);
+        GameManager.Instance.AlterMoneyAvailable(Constants.EnemyAward);
         //notify interested parties that we died
         if (EnemyKilled != null)
             EnemyKilled(this, EventArgs.Empty);

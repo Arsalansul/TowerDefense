@@ -31,16 +31,10 @@ public class GameManager : MonoBehaviour
     private GameObject WaypointsParent;
     //file pulled from resources
     private LevelStuffFromXML levelStuffFromXML;
-    //will spawn carrots on screen
-    //public CarrotSpawner CarrotSpawner;
 
     //helpful variables for our player
     [HideInInspector]
     public int MoneyAvailable { get; private set; }
-    [HideInInspector]
-    //public float MinCarrotSpawnTime;
-    //[HideInInspector]
-    //public float MaxCarrotSpawnTime;
     public int Lives = 10;
     private int currentRoundIndex = 0;
     [HideInInspector]
@@ -102,7 +96,7 @@ public class GameManager : MonoBehaviour
         int backgroundLayerID = LayerMask.NameToLayer("Background");
         int towerLayerID = LayerMask.NameToLayer("Watchtower");
         Physics.IgnoreLayerCollision(CannonLayerID, enemyLayerID); //Cannon and Enemy (when dragging the Cannon)
-        //Physics3D.IgnoreLayerCollision(BallLayerID, backgroundLayerID); //Ball and Background
+        Physics.IgnoreLayerCollision(BallLayerID, backgroundLayerID); //Ball and Background
         Physics.IgnoreLayerCollision(BallLayerID, CannonLayerID); //Ball and Cannon
         Physics.IgnoreLayerCollision(BallLayerID, towerLayerID); //Ball and Tower
     }
@@ -177,7 +171,6 @@ public class GameManager : MonoBehaviour
                 {
                     CurrentGameState = GameState.Playing;
                     StartCoroutine(NextRound());
-                    //CarrotSpawner.StartCarrotSpawning();
                 }
                 break;
             case GameState.Playing:
@@ -186,7 +179,6 @@ public class GameManager : MonoBehaviour
                     //no more rounds
                     StopCoroutine(NextRound());
                     DestroyExistingEnemiesAndCarrots();
-                    //CarrotSpawner.StopCarrotSpawning();
                     CurrentGameState = GameState.Lost;
                 }
                 else if (FinalRoundFinished && Enemies.Where(x => x != null).Count() == 0)
